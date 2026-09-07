@@ -6,55 +6,80 @@
     <title>Burhan - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="container">
-            <a href="#profile" class="brand">Burhan</a>
+    <header>
+        <div class="left-header">
+            <a href="#profile" class="brand">Naira Al Humayda</a>
+        </div>
+        <div class="right-header">
             <nav>
-                <a href="#profile">Profile</a>
+                <ul>
+                    <li><a href="#home">home</a></li>
+                    <li><a href="#about">About Me</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
     <main>
-        <section class="hero" id="profile">
-            <div class="container hero-grid">
-                <div class="hero-identity">
-                    <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1>Burhan</h1>
+        <section id="home" class="home container">
+            <div class="row hero-row">
+                <div class="hero-text">
+                    <h3>Hi! I'm</h3>
+                    <h1>Naira Al Humayda</h1>
+                    <p>I am a student at Indonesia University</p>
                 </div>
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/burhan.png" alt="Photo of Burhan">
-                </div>
-                <div class="hero-details">
-                    <p class="bio">CS student at Universitas Indonesia for longer than planned, now a familiar (and slightly dreaded) face among Fasilkom students as a teaching assistant across several courses.</p>
-                    <dl class="meta-list">
-                        <div class="meta-row">
-                            <dt>NPM</dt>
-                            <dd>2206000000</dd>
-                        </div>
-                        <div class="meta-row">
-                            <dt>Program</dt>
-                            <dd>S1 Ilmu Komputer</dd>
-                        </div>
-                    </dl>
-                    <div class="social-links">
-                        <a href="https://github.com/" class="social-link">GitHub</a>
-                        <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
-                        <a href="mailto:burhan@example.com" class="social-link">Email</a>
-                    </div>
+                <div class="hero-img">
+                    <img src="/static/img/Naira-Photo.jpeg" alt="potrait">
                 </div>
             </div>
+            <a href="#about" class="arrow">
+                <div class="text-dark">More Info</div>
+                <img id="arrow" src="/static/img/arrow.svg" alt="arrow icon">
+            </a>
         </section>
+
+        <section id="about" class="about container">
+            <p>Hello! I am Naira Al Humayda [NPM: 2506532233], an undergraduate student at the Faculty of Computer Science, Universitas Indonesia (Fasilkom UI), majoring in Computer Science.</p>
+        <div class="about-exp">
+            <div class="about-exp-item">
+                <div class="about-exp-item-header">
+                    <div>
+                        <h5>Comunity Service Staff</h5>
+                        <p>BEM Fasilkom UI (Now)</p>
+                    </div>
+                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
+                </div>
+            </div>
+            <div class="about-exp-item">
+                <div class="about-exp-item-header">
+                    <div>
+                        <h5>Competition Staff</h5>
+                        <p>CompFest (Now)</p>
+                    </div>
+                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
+                </div>
+            </div>
+            <div class="about-exp-item">
+                <div class="about-exp-item-header">
+                    <div>
+                        <h5>IT Force Staff</h5>
+                        <p>FUKI (Now)</p>
+                    </div>
+                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
+                </div>
+            </div>
+        </div>
+    </section>
+        
     </main>
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 Burhan. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <p>&copy; 2026 Naira Al Humayda. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
 </body>
