@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burhan - Portfolio</title>
+    <title>{{ name }} - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -12,13 +12,15 @@
 <body>
     <header>
         <div class="left-header">
-            <a href="#profile" class="brand">Naira Al Humayda</a>
+            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
         </div>
         <div class="right-header">
             <nav>
                 <ul>
-                    <li><a href="#home">home</a></li>
-                    <li><a href="#about">About Me</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="{% url 'main:show_main' %}">Profile</a></li>
+                    <li><a href="{% url 'main:show_experience' %}">Experience</a></li>
                 </ul>
             </nav>
         </div>
@@ -29,26 +31,28 @@
             <div class="row hero-row">
                 <div class="hero-text">
                     <h3>Hi! I'm</h3>
-                    <h1>Naira Al Humayda</h1>
+                    <h1>{{ name }}</h1>
                     <p>I am a student at Indonesia University</p>
                 </div>
                 <div class="hero-img">
-                    <img src="/static/img/Naira-Photo.jpeg" alt="potrait">
+                    <img src="/static/img/Naira-Photo.jpeg" alt="Photo of {{ name }}">
                 </div>
             </div>
             <a href="#about" class="arrow">
-                <div class="text-dark">More Info</div>
+                <div class="text-dark">
+                    <a href="{% url 'main:show_experience' %}">More Info</a>
+                </div>
                 <img id="arrow" src="/static/img/arrow.svg" alt="arrow icon">
             </a>
         </section>
 
         <section id="about" class="about container">
-            <p>Hello! I am Naira Al Humayda [NPM: 2506532233], an undergraduate student at the Faculty of Computer Science, Universitas Indonesia (Fasilkom UI), majoring in Computer Science.</p>
+            <p>Hello! I am {{ name }} [{{ npm }}], an undergraduate student at the Faculty of Computer Science, Universitas Indonesia (Fasilkom UI), majoring in {{ study_program }}.</p>
         <div class="about-exp">
             <div class="about-exp-item">
                 <div class="about-exp-item-header">
                     <div>
-                        <h5>Comunity Service Staff</h5>
+                        <h5>Community Service Staff</h5>
                         <p>BEM Fasilkom UI (Now)</p>
                     </div>
                     <button class="btn button" onclick="toggleDetail(event)">More Info</button>
@@ -79,7 +83,7 @@
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 Naira Al Humayda. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
 </body>
