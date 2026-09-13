@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,17 +12,16 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
+    <header >
         <div class="left-header">
             <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
         </div>
         <div class="right-header">
             <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="{% url 'main:show_main' %}">Profile</a></li>
+                    <li><a href="{% url 'main:show_main' %}" class="active">Profile</a></li>
                     <li><a href="{% url 'main:show_experience' %}">Experience</a></li>
+                    <li><a href="{% url 'main:show_projects' %}">Projects</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,47 +39,22 @@
                     <img src="/static/img/Naira-Photo.jpeg" alt="Photo of {{ name }}">
                 </div>
             </div>
-            <a href="#about" class="arrow">
+            <div class="arrow">
                 <div class="text-dark">
-                    <a href="{% url 'main:show_experience' %}">More Info</a>
+                    <a href="{% url 'main:show_experience' %}">
+                        More Info
+                    </a>
                 </div>
-                <img id="arrow" src="/static/img/arrow.svg" alt="arrow icon">
-            </a>
+
+                <a href="#about">
+                    <img id="arrow" src="/static/img/arrow.svg" alt="arrow icon">
+                </a>
+            </div>
         </section>
 
         <section id="about" class="about container">
             <p>Hello! I am {{ name }} [{{ npm }}], an undergraduate student at the Faculty of Computer Science, Universitas Indonesia (Fasilkom UI), majoring in {{ study_program }}.</p>
-        <div class="about-exp">
-            <div class="about-exp-item">
-                <div class="about-exp-item-header">
-                    <div>
-                        <h5>Community Service Staff</h5>
-                        <p>BEM Fasilkom UI (Now)</p>
-                    </div>
-                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
-                </div>
-            </div>
-            <div class="about-exp-item">
-                <div class="about-exp-item-header">
-                    <div>
-                        <h5>Competition Staff</h5>
-                        <p>CompFest (Now)</p>
-                    </div>
-                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
-                </div>
-            </div>
-            <div class="about-exp-item">
-                <div class="about-exp-item-header">
-                    <div>
-                        <h5>IT Force Staff</h5>
-                        <p>FUKI (Now)</p>
-                    </div>
-                    <button class="btn button" onclick="toggleDetail(event)">More Info</button>
-                </div>
-            </div>
-        </div>
-    </section>
-        
+        </section>
     </main>
 
     <footer class="site-footer">

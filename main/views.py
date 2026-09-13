@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from main.models import Experience, Project
 
-# Create your views here.
-from django.shortcuts import render
-
-from main.models import Experience
-
+def show_projects(request):
+    context = {
+        "name": "Naira Al Humayda",
+        "project_list": Project.objects.all(),
+    }
+    return render(request, "projects.html", context)
 
 def show_main(request):
     context = {

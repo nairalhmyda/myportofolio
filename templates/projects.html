@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - {{ name }} - Portfolio</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header >
+    <div class="left-header">
+        <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
+    </div>
+    <div class="right-header">
+        <nav>
+            <ul>
+                <li><a href="{% url 'main:show_main' %}">Profile</a></li>
+                <li><a href="{% url 'main:show_experience' %}">Experience</a></li>
+                <li><a href="{% url 'main:show_projects' %}" class="active">Projects</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="experience-section">
+        <div class="container">
+            <p class="section-kicker">Portfolio</p>
+            <h1>Projects</h1>
+
+            <div class="experience-grid">
+                {% for project in project_list %}
+                    <article class="experience-card">
+                        <span class="experience-category">{{ project.year }}</span>
+
+                        <h2>{{ project.title }}</h2>
+
+                        <p class="experience-description">
+                            {{ project.description }}
+                        </p>
+
+                        <p class="experience-status">
+                            {{ project.tech_stack }}
+                        </p>
+
+                        {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" rel="noopener">
+                                View on GitHub
+                            </a>
+                        {% endif %}
+                    </article>
+
+                {% empty %}
+                    <p class="empty-state">
+                        Belum ada proyek yang ditambahkan.
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+</footer>
+
+</body>
+</html>

@@ -64,6 +64,10 @@ nav a {
     font-weight: 700px;
 }
 
+nav a.active {
+    color: #000000;
+}
+
 section {
     padding-top: 128px;
     position: relative;
@@ -115,10 +119,6 @@ section::before {
     display: block;
 }
 
-.home img {
-    width: 100%;
-}
-
 .arrow {
     display: flex;
     flex-direction: column;
@@ -127,18 +127,16 @@ section::before {
     width: 100%;
 }
 
-.arrow .text-dark{
+.arrow .text-dark a{
     text-decoration: none;
     color: #000000;
 }
 
-.arrow img {
+.arrow img#arrow {
     width: 60px;
+    height: auto;
     margin-top: 10px;
-}
-
-#arrow {
-    animation: 2s upDown infinite;
+    object-fit: contain;
 }
 
 .container {
@@ -152,42 +150,6 @@ section::before {
     color: #333;
 }
 
-.about-exp-item {
-    margin-top: 35px;
-}
-
-.about-exp-item-header h5 {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 8px; 
-}
-
-.about-exp-item-header p {
-    color: #555; 
-}
-
-.about-exp-item-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-}
-
-.btn.button {
-    display: inline-block;
-    padding: 10px 24px;
-    border: 2px solid black;
-    border-radius: 32px;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-} 
-
-.btn.button:hover {
-    background-color: black;
-    color: white;
-}
 
 .site-footer {
     border-top: 1px solid var(--line);
@@ -197,18 +159,24 @@ section::before {
     font-size: 0.9rem;
 }
 
-@media (min-width: 768px) {
-    .hero-grid {
-        grid-template-columns: 2fr 1fr;
-        grid-template-areas:
-            "identity photo"
-            "details photo";
-        gap: 1.5rem 3rem;
+@media (max-width: 767px) {
+    .hero-row {
+        flex-direction: column;
+        text-align: center;
     }
 
-    .hero-identity { grid-area: identity; }
-    .hero-photo { grid-area: photo; }
-    .hero-details { grid-area: details; }
+    .hero-img img {
+        width: min(280px, 80vw);
+        height: min(280px, 80vw);
+    }
+
+    .home h1 {
+        font-size: 48px;
+    }
+
+    .home h3 {
+        font-size: 32px;
+    }
 }
 
 .experience-section {

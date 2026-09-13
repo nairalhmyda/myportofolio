@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +12,16 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
+    <header >
         <div class="left-header">
-            <a href="#profile" class="brand">{{ name }}</a>
+            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
         </div>
         <div class="right-header">
             <nav>
                 <ul>
-                    <li><a href="#home">home</a></li>
-                    <li><a href="#about">About Me</a></li>
-                    <li><a href="{% url 'main:show_main' %}">Back to Home</a></li>
+                    <li><a href="{% url 'main:show_main' %}">Profile</a></li>
+                    <li><a href="{% url 'main:show_experience' %}" class="active">Experience</a></li>
+                    <li><a href="{% url 'main:show_projects' %}">Projects</a></li>
                 </ul>
             </nav>
         </div>
