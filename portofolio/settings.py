@@ -102,6 +102,10 @@ else:
         }
     }
 
+#CSRF configuration
+CSRF_TRUSTED_ORIGINS = [
+    "https://naira-al-myportofolio.pws.cs.ui.ac.id",
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

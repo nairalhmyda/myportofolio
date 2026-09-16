@@ -232,3 +232,175 @@ section::before {
     font-size: 0.85rem;
     font-weight: 600;
 }
+
+
+.button {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button-danger {
+    background-color: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+.button-danger:hover {
+    background-color: var(--accent-dark);
+    border-color: var(--accent-dark);
+}
+
+.button-secondary {
+    background-color: #ffffff;
+    color: var(--ink);
+}
+
+.button-secondary:hover {
+    background-color: var(--paper);
+}
+
+.project-delete-modal {
+    width: min(420px, calc(100vw - 2rem));
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background-color: #ffffff;
+    color: var(--ink);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.project-delete-modal::backdrop {
+    background: rgba(28, 25, 23, 0.45);
+}
+
+.project-delete-modal__content {
+    position: relative;
+    padding: 2rem;
+}
+
+.project-delete-modal__content h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.project-delete-modal__content p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.project-delete-modal__content strong {
+    color: var(--ink);
+}
+
+.project-delete-modal__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.project-delete-modal__close:hover {
+    color: var(--ink);
+}
+
+.project-delete-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.project-delete-modal__actions form {
+    margin: 0;
+}
+
+/* --- PROJECTS --- */
+
+.project-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-header h1 {
+    margin-bottom: 0;
+}
+
+.project-add-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.project-add-button span {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.project-search {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-search__input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+}
+
+.project-search__input:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.project-grid .experience-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-grid .button {
+    margin-top: 0.75rem;
+    width: fit-content;
+}
+
+@media (max-width: 600px) {
+    .project-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .project-add-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .project-search {
+        flex-direction: column;
+    }
+
+    .project-search .button {
+        width: 100%;
+    }
+}

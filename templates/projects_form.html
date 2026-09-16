@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="experience-section">
+    <div class="container">
+        <p class="section-kicker">Portfolio</p>
+        <h1>Tambah Project</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Tambah Project
+            </button>
+        </form>
+    </div>
+</section>
+
+{% endblock content %}
