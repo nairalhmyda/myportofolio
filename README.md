@@ -1,75 +1,185 @@
-Nama  : Naira Al Humayda
+# Naira Al Humayda - Personal Portfolio
 
-NPM   : 2506532233
+Website portofolio pribadi yang dibuat menggunakan Django untuk menampilkan profil, pengalaman, dan proyek yang pernah dikerjakan.
 
-Kelas : PBP E
+## Deskripsi Proyek
 
-## TUGAS 2
+Website ini dikembangkan sebagai bagian dari mata kuliah Pemrograman Berbasis Platform (PBP).
 
--- AI Disclosure --
+Website memiliki beberapa bagian utama:
 
-Dalam pengerjaan Tugas 2, saya menggunakan ChatGPT sebagai bantuan belajar dan debugging. 
-ChatGPT membantu menjelaskan konsep MVT Django, memberikan arahan mengenai implementasi 
-model, view, URL, template, serta membantu mengecek dan memperbaiki error pada kode.
+- Profile
+- Experience
+- Projects
+- About Me
 
-Implementasi kode, pengisian data project, pengujian aplikasi, dan pengecekan hasil akhir 
-tetap saya lakukan sendiri.
+Pada Individual Assignment 3, bagian Experience dikembangkan dengan fitur pengelolaan data menggunakan Django ModelForm dan JSON Data Delivery.
 
-1. USER
-    |   -> Request pertama kali diproses oleh URL configuration utama pada 'portofolio/urls.py'
-    PORTOFOLIO/URLS.PY
-    |   -> URL diarahkan ke URL configuration pada app 'main' melalui 'main/urls.py'
-    MAIN/URLS.PY
-    |   -> route `projects/` diarahkan ke fungsi `show_projects` pada `main/views.py`
-    SHOW_PROJECT()
-    |   -> Database diambil menggunakan `Project.objects.all()` dan memasukkannya ke dalam context dengan nama `project_list`.
-    PROJECT.OBJECT.ALL()
-    |   -> View merender template `projects.html` dengan context tersebut.
-    PROJECT.HTML
-    |   -> Memunculkan ke Browser
-    BROWSER
+## Fitur Utama
 
-    Peran masing-masing komponen adalah:
-    - `portofolio/urls.py`: mengatur URL utama project dan mengarahkan request ke app.
-    - `main/urls.py`: menentukan URL pada app dan view yang menangani request tersebut.
-    - `views.py`: memproses request, mengambil data dari model, dan mengirimkannya ke template.
-    - `models.py`: mendefinisikan struktur data project yang disimpan dalam database.
-    - `projects.html`: menampilkan data yang diberikan oleh view kepada pengguna.
+### Profile
 
-2.  Data portfolio sebaiknya disimpan pada Model/database daripada langsung ditulis
-    di dalam template karena data portfolio dapat berubah dan bertambah, sedangkan
-    struktur tampilan tidak selalu perlu berubah.
+Menampilkan informasi singkat mengenai diri dan latar belakang pendidikan.
 
-    Pada project ini, data project seperti title, description, tech stack, GitHub URL,
-    dan year disimpan pada model `Project`. View kemudian mengambil data tersebut
-    menggunakan `Project.objects.all()` dan mengirimkannya ke template melalui
-    context.
+### Projects
 
-    Dengan pendekatan ini, ketika ingin menambahkan atau mengubah project, data
-    dapat diubah pada database tanpa perlu mengubah struktur HTML. Hal ini membuat
-    maintenance menjadi lebih mudah dan template menjadi lebih reusable. Jika jumlah
-    project bertambah, template yang sama tetap dapat digunakan karena data
-    ditampilkan menggunakan loop Django Template Language.
+- Menampilkan daftar proyek.
+- Menambahkan proyek melalui form.
+- Menghapus proyek.
+- Menyediakan data proyek dalam format JSON.
+- Pencarian proyek berdasarkan judul.
 
-    Sebaliknya, jika data ditulis langsung pada template, setiap penambahan atau
-    perubahan project mengharuskan developer mengubah file HTML secara manual.
-    Semakin banyak data yang dimiliki, cara tersebut akan membuat maintenance dan
-    pengembangan menjadi lebih sulit.
+### Experience
 
-3.  `makemigrations` digunakan untuk membuat file migration berdasarkan perubahan
-    pada Model Django. File tersebut berisi instruksi mengenai perubahan struktur
-    database yang perlu dilakukan.
+- Menampilkan daftar pengalaman.
+- Menambahkan pengalaman menggunakan ModelForm.
+- Mengubah pengalaman menggunakan Update Form.
+- Menghapus pengalaman.
+- Menyediakan data pengalaman dalam format JSON.
+- Melakukan deserialisasi JSON sebelum data ditampilkan.
+- Pencarian pengalaman berdasarkan nama pengalaman.
+- Konfirmasi sebelum menghapus data.
 
-    Sementara itu, `migrate` digunakan untuk menerapkan migration yang sudah dibuat
-    ke database sehingga struktur database benar-benar berubah.
+### UI/UX
 
-    Contohnya pada Tugas 2 ini, setelah menambahkan model `Project` pada
-    `main/models.py`, saya menjalankan `python manage.py makemigrations`. Django
-    kemudian membuat file `main/migrations/0002_project.py` yang berisi migration
-    untuk model `Project`. Setelah itu saya menjalankan `python manage.py migrate`
-    untuk menerapkan migration tersebut ke database.
+- Template inheritance menggunakan `base.html`.
+- Expandable navigation menu.
+- Responsive layout.
+- Card-based interface.
+- Hover interaction pada card Projects dan Experience.
+- About card dibuat sebagai informasi statis dan tidak menggunakan hover interaction.
+- Form validation dan feedback message.
 
-    Dengan demikian, `makemigrations` dapat dianggap sebagai proses membuat
-    rencana perubahan database, sedangkan `migrate` merupakan proses menerapkan
-    rencana tersebut ke database.
+---
 
+## Teknologi
+
+- Python
+- Django
+- HTML5
+- CSS3
+- SQLite
+- Git & GitHub
+
+---
+
+## Cara Menjalankan Project
+
+### 1. Clone repository
+
+```bash
+git clone <URL_REPOSITORY>
+cd myportofolio
+
+### 2. Buat dan Aktifkan Virtual Environment
+## Windows PowerShell
+python -m venv env
+.\env\Scripts\Activate.ps1
+##dgn Command Prompt
+env\Scripts\activate
+
+### 3. Install dependencies
+pip install -r requirements.txt
+
+### 4. Jalankan migration
+python manage.py migrate
+
+### 5. Jalankan development server
+python manage.py runserver
+
+### Kemudian Buka
+http://127.0.0.1:8000/
+
+#TUGAS 3
+
+1. ModelForm digunakan karena form dapat dibuat berdasarkan model Django secara langsung. Dengan ModelForm, field dan validasi dapat mengikuti struktur model sehingga tidak perlu membuat seluruh form HTML secara manual.
+
+Pada tugas ini, ExperienceForm dibuat berdasarkan model Experience. Field yang dapat diisi pengguna didefinisikan melalui Meta.fields, sedangkan field seperti id tidak perlu dimasukkan secara manual.
+
+{% csrf_token %} digunakan untuk memberikan token keamanan pada form yang melakukan request ke server. Token tersebut membantu Django memastikan bahwa request POST berasal dari halaman yang valid dan membantu mencegah serangan Cross-Site Request Forgery (CSRF)
+
+2.JSON memiliki struktur yang relatif sederhana dan lebih ringkas sehingga mudah dibaca oleh manusia maupun diproses oleh program.
+
+JSON juga menggunakan struktur key-value dan array yang sesuai dengan struktur data yang umum digunakan dalam aplikasi web. Karena itu, JSON banyak digunakan untuk pertukaran data antara server dan client, terutama dalam API.
+
+XML memiliki kemampuan representasi data yang kuat, tetapi sintaksnya cenderung lebih verbose karena menggunakan tag pembuka dan penutup. Untuk kebutuhan data delivery pada project ini, JSON lebih praktis karena struktur datanya sederhana dan mudah diproses.
+
+3. Pada project ini, data Experience pertama-tama diambil dari database menggunakan Django ORM.
+
+Data tersebut kemudian diproses oleh fungsi get_experiences_json(). Karena object yang diperoleh dari Django ORM merupakan object Python/Django, data tersebut perlu diubah menjadi format yang dapat dikirim sebagai JSON.
+
+Proses tersebut dilakukan menggunakan Django serializer:
+
+'serializers.serialize("json", experiences)'
+
+Hasil serialization kemudian dikembalikan melalui HttpResponse dengan content type application/json.
+
+Pada halaman Experience, view show_experience() mengambil response JSON tersebut dan melakukan deserialization:
+
+'serializers.deserialize(
+
+    "json",
+
+    json_response.content.decode("utf-8"),
+
+)'
+
+Object hasil deserialization kemudian digunakan untuk menampilkan data Experience pada template.
+
+Serialization diperlukan karena object model Django tidak dapat langsung dikirim sebagai JSON. Serialization mengubah data model menjadi representasi data yang dapat dikirim dan diproses sebagai JSON.
+
+#PROSES MINGGUAN
+
+Tutorial 03
+
+-Menggunakan template inheritance.
+
+-Membuat form untuk Project.
+
+-Menambahkan fitur create dan delete Project.
+
+-Membuat JSON endpoint untuk Project.
+
+-Menambahkan pencarian dan interaksi pada halaman Project.
+
+Individual Assignment 3
+
+-Membuat ExperienceForm.
+
+-Menambahkan Create Experience.
+
+-Menambahkan Update Experience.
+
+-Menambahkan Delete Experience.
+
+-Menambahkan JSON Data Delivery untuk Experience.
+
+-Menambahkan deserialization sebelum data ditampilkan.
+
+-Melakukan refactoring template agar menggunakan base.html.
+
+-Menambahkan search pada Experience.
+
+-Meningkatkan UI/UX melalui card layout, navigation menu, responsive styling, dan delete confirmation.
+
+#AI Disclosure
+
+Dalam proses pengembangan project ini, saya menggunakan ChatGPT sebagai supporting tool untuk membantu memahami konsep, melakukan debugging, mengevaluasi struktur implementasi, serta memberikan saran mengenai UI/UX.
+
+AI digunakan terutama untuk:
+
+membantu memahami implementasi ModelForm dan CRUD pada Django;
+
+membantu debugging error pada URL, view, dan template;
+
+memberikan contoh struktur implementasi JSON serialization dan deserialization;
+
+memberikan saran struktur HTML dan CSS;
+
+memberikan masukan mengenai responsive layout dan UI/UX.
+
+Implementasi akhir tetap saya kerjakan, sesuaikan, dan uji pada project saya sendiri. Saran dari AI tidak langsung digunakan tanpa pengecekan karena beberapa contoh yang diberikan AI mengikuti struktur tutorial dan perlu disesuaikan dengan model, field, URL, dan desain yang sudah ada pada project.
+
+Salah satu keterbatasan yang saya temukan adalah AI terkadang memberikan implementasi berdasarkan asumsi struktur model atau template yang berbeda dari project saya. Karena itu, saya perlu memeriksa kembali field model, URL pattern, template inheritance, dan hasil running website secara manual sebelum menggunakan solusi tersebut.
+
+Pada tahap UI/UX, saya juga melakukan penyesuaian manual terhadap layout, warna, ukuran card, navigation menu, hover interaction, responsive behavior, serta struktur halaman agar sesuai dengan desain portfolio yang saya inginkan.
