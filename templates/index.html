@@ -1,40 +1,95 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
 
-<section id="home" class="home container">
-    <div class="row hero-row">
-        <div class="hero-text">
-            <h3>Hi! I'm</h3>
-            <h1>{{ name }}</h1>
-            <p>I am a student at Indonesia University</p>
-        </div>
+<main class="portfolio-home">
 
-        <div class="hero-img">
-            <img src="{% static 'img/Naira-Photo.jpeg' %}" alt="Photo of {{ name }}">
-        </div>
-    </div>
+    <section class="home-intro">
+        <p class="home-eyebrow">PORTFOLIO / 2026</p>
 
-    <div class="arrow">
-        <div class="text-dark">
-            <a href="{% url 'main:show_experience' %}">
-                More Info
-            </a>
-        </div>
+        <h1>
+            Hi, I'm<br>
+            <span>{{ name }}</span>
+        </h1>
 
-        <a href="#about">
-            <img id="arrow" src="{% static 'img/arrow.svg' %}" alt="arrow icon">
+        <p class="home-description">
+            An undergraduate student at Fasilkom UI,
+            exploring design, technology, and creative work.
+        </p>
+    </section>
+
+
+    <div class="portfolio-grid">
+
+        <!-- PROJECTS -->
+        <a href="{% url 'main:show_projects' %}"
+           class="portfolio-card portfolio-projects">
+
+            <div class="card-top">
+                <span>01</span>
+                <span>SELECTED WORK</span>
+            </div>
+
+            <div class="card-bottom">
+                <div>
+                    <p>EXPLORE</p>
+                    <h2>Projects</h2>
+                </div>
+
+                <span class="card-arrow">↗</span>
+            </div>
+
         </a>
-    </div>
-</section>
 
-<section id="about" class="about container">
-    <p>
-        Hello! I am {{ name }} [{{ npm }}], an undergraduate student
-        at the Faculty of Computer Science, Universitas Indonesia
-        (Fasilkom UI), majoring in {{ study_program }}.
-    </p>
-</section>
+
+        <!-- EXPERIENCE -->
+        <a href="{% url 'main:show_experience' %}"
+           class="portfolio-card portfolio-experience">
+
+            <div class="card-top">
+                <span>02</span>
+                <span>JOURNEY</span>
+            </div>
+
+            <div class="card-bottom">
+                <div>
+                    <p>EXPLORE</p>
+                    <h2>Experience</h2>
+                </div>
+
+                <span class="card-arrow">↗</span>
+            </div>
+
+        </a>
+
+
+        <!-- ABOUT -->
+        <section class="portfolio-card portfolio-about">
+
+            <div class="card-top">
+                <span>03</span>
+                <span>ABOUT ME</span>
+            </div>
+
+            <div class="about-card-content">
+                <p>GET TO KNOW</p>
+
+                <h2>
+                    Building things,<br>
+                    learning along the way.
+                </h2>
+
+                <p class="about-card-description">
+                    Hello! I am {{ name }}, an undergraduate student
+                    at the Faculty of Computer Science, Universitas
+                    Indonesia, majoring in {{ study_program }}.
+                </p>
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
 
 {% endblock content %}

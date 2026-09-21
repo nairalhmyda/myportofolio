@@ -11,40 +11,49 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <header>
-        <div class="left-header">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-        </div>
+    <header class="site-header">
 
-        <div class="right-header">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="{% url 'main:show_main' %}">
-                            Profile
-                        </a>
-                    </li>
+        <a href="{% url 'main:show_main' %}" class="brand">
+            Naira Al Humayda
+        </a>
 
-                    <li>
-                        <a href="{% url 'main:show_experience' %}">
-                            Experience
-                        </a>
-                    </li>
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-expanded="false"
+            aria-controls="site-menu"
+        >
+            MENU
+            <span class="menu-icon">+</span>
+        </button>
 
-                    <li>
-                        <a href="{% url 'main:show_projects' %}">
-                            Projects
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
     </header>
+
+    <nav class="site-menu" id="site-menu">
+        <a href="{% url 'main:show_main' %}">Profile</a>
+        <a href="{% url 'main:show_experience' %}">Experience</a>
+        <a href="{% url 'main:show_projects' %}">Projects</a>
+    </nav>
+
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const siteMenu = document.querySelector("#site-menu");
+
+        menuToggle.addEventListener("click", () => {
+            const isOpen = siteMenu.classList.toggle("is-open");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.querySelector("span:first-child").textContent =
+                isOpen ? "CLOSE" : "MENU";
+            menuToggle.querySelector(".menu-icon").textContent =
+                isOpen ? "×" : "+";
+        });
+    </script>
 
     <main>
         {% block content %}
@@ -52,9 +61,10 @@
     </main>
 
     <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
-        </div>
+        <p>
+            © 2026 {{ name }}.
+            Fakultas Ilmu Komputer, Universitas Indonesia.
+        </p>
     </footer>
 </body>
 </html>
