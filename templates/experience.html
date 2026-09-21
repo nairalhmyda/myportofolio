@@ -1,39 +1,190 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
 
-<section class="experience-section" id="experience">
+<section class="experience-section">
     <div class="container">
-        <p class="section-kicker">Perjalanan saya sejauh ini</p>
-        <h1>Experience</h1>
+
+        <div class="project-header">
+
+            <div>
+                <p class="section-kicker">
+                    Perjalanan saya sejauh ini
+                </p>
+
+                <h1>Experience</h1>
+            </div>
+
+            <a
+                href="{% url 'main:create_experience' %}"
+                class="button project-add-button"
+            >
+                <span aria-hidden="true">+</span>
+                Tambah Pengalaman
+            </a>
+
+        </div>
+
+        <form
+            method="get"
+            action="{% url 'main:show_experience' %}"
+            class="project-search"
+        >
+
+            <input
+                type="search"
+                name="title"
+                value="{{ title_query }}"
+                placeholder="Cari berdasarkan nama pengalaman"
+                class="project-search__input"
+                aria-label="Cari berdasarkan nama pengalaman"
+            >
+
+            <button
+                type="submit"
+                class="button"
+            >
+                Cari
+            </button>
+
+        </form>
 
         <div class="experience-grid">
+
             {% for experience in experience_list %}
+
                 <article class="experience-card">
+
                     <span class="experience-category">
                         {{ experience.get_category_display }}
                     </span>
 
-                    <h2>{{ experience.title }}</h2>
+                    <h2>
+                        {{ experience.title }}
+                    </h2>
 
                     <p class="experience-description">
                         {{ experience.description }}
                     </p>
 
                     {% if experience.is_ongoing %}
-                        <p class="experience-status">Sedang berlangsung</p>
+
+                        <p class="experience-status">
+                            Sedang berlangsung
+                        </p>
+
                     {% else %}
-                        <p class="experience-status">Selesai</p>
+
+                        <p class="experience-status">
+                            Selesai
+                        </p>
+
                     {% endif %}
+
+                    <div class="experience-actions">
+
+                        <a
+                            href="{% url 'main:update_experience' experience.id %}"
+                            class="button button-secondary"
+                        >
+                            Edit
+                        </a>
+
+                        <button
+                            type="button"
+                            class="button button-danger"
+                            popovertarget="delete-experience-{{ experience.id }}"
+                        >
+                            Hapus
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="delete-experience-{{ experience.id }}"
+                        class="project-delete-modal"
+                        popover="auto"
+                        role="dialog"
+                        aria-modal="true"
+                    >
+
+                        <div class="project-delete-modal__content">
+
+                            <button
+                                type="button"
+                                class="project-delete-modal__close"
+                                popovertarget="delete-experience-{{ experience.id }}"
+                                popovertargetaction="hide"
+                                aria-label="Tutup"
+                            >
+                                ×
+                            </button>
+
+                            <h2>
+                                Hapus Pengalaman?
+                            </h2>
+
+                            <p>
+                                Apakah kamu yakin ingin menghapus
+                                <strong>
+                                    {{ experience.title }}
+                                </strong>?
+                            </p>
+
+                            <div class="project-delete-modal__actions">
+
+                                <button
+                                    type="button"
+                                    class="button button-secondary"
+                                    popovertarget="delete-experience-{{ experience.id }}"
+                                    popovertargetaction="hide"
+                                >
+                                    Batal
+                                </button>
+
+                                <form
+                                    method="post"
+                                    action="{% url 'main:delete_experience' experience.id %}"
+                                >
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="button button-danger"
+                                    >
+                                        Ya, Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </article>
 
             {% empty %}
-                <p class="empty-state">
-                    Belum ada pengalaman yang ditambahkan.
-                </p>
+
+                {% if title_query %}
+
+                    <p class="empty-state">
+                        Tidak ada pengalaman dengan nama tersebut.
+                    </p>
+
+                {% else %}
+
+                    <p class="empty-state">
+                        Belum ada pengalaman yang ditambahkan.
+                    </p>
+
+                {% endif %}
+
             {% endfor %}
+
         </div>
+
     </div>
 </section>
 

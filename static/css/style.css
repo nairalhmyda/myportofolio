@@ -233,6 +233,94 @@ section::before {
     font-weight: 600;
 }
 
+/* --- EXPERIENCE MANAGEMENT --- */
+
+.experience-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.portfolio-form {
+    max-width: 700px;
+    margin-top: 2rem;
+}
+
+.form-field {
+    margin-bottom: 1.25rem;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.form-field input[type="text"],
+.form-field input[type="url"],
+.form-field input[type="number"],
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.form-field input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--accent);
+}
+
+.form-field small {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--text-muted);
+}
+
+.field-error {
+    margin-top: 0.35rem;
+    color: var(--accent-dark);
+    font-size: 0.85rem;
+}
+
+.form-errors {
+    margin-bottom: 1rem;
+    color: var(--accent-dark);
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.button-secondary {
+    background-color: #fff;
+    color: var(--ink);
+}
+
+.button-secondary:hover {
+    background-color: var(--paper);
+}
 
 .button {
     display: inline-block;
@@ -326,8 +414,6 @@ section::before {
 .project-delete-modal__actions form {
     margin: 0;
 }
-
-/* --- PROJECTS --- */
 
 .project-header {
     width: 100%;
