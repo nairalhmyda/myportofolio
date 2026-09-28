@@ -17,6 +17,12 @@ from django.shortcuts import (
 from main.forms import ExperienceForm, ProjectForm
 from main.models import Experience, Project
 
+def is_editor(user):
+    return (
+        user.is_authenticated
+        and user.groups.filter(name="Editor").exists()
+    )
+
 from django.shortcuts import get_object_or_404, render, redirect
 from main.forms import ProjectForm
 
@@ -36,6 +42,7 @@ def show_projects(request):
         "name": "Naira Al Humayda",
         "project_list": projects,
         "title_query": title_query,
+        "is_editor": is_editor(request.user),
     }
 
     return render(request, "projects.html", context)
@@ -74,11 +81,16 @@ def show_experience(request):
         "name": "Naira Al Humayda",
         "experience_list": experiences,
         "title_query": title_query,
+        "is_editor": is_editor(request.user),
     }
 
     return render(request, "experience.html", context)
 
+@login_required(login_url="/login/")
 def create_experience(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     form = ExperienceForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -102,7 +114,13 @@ def create_experience(request):
         context,
     )
 
+
+
+@login_required(login_url="/login/")
 def update_experience(request, experience_id):
+    if not request.user.is_superuser and not is_editor(request.user):
+        raise PermissionDenied
+
     experience = get_object_or_404(
         Experience,
         pk=experience_id,
@@ -135,7 +153,11 @@ def update_experience(request, experience_id):
         context,
     )
 
+@login_required(login_url="/login/")
 def delete_experience(request, experience_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     experience = get_object_or_404(
         Experience,
         pk=experience_id,
@@ -171,13 +193,19 @@ def get_experiences_json(request):
         content_type="application/json",
     )
 
-@login_required(login_url="/login/") 
+@login_required(login_url="/login/")
 def create_project(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
     form = ProjectForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Proyek baru berhasil ditambahkan!")
+        messages.success(
+            request,
+            "Proyek baru berhasil ditambahkan!",
+        )
         return redirect("main:show_projects")
 
     context = {
@@ -186,6 +214,43 @@ def create_project(request):
     }
 
     return render(request, "projects_form.html", context)
+
+@login_required(login_url="/login/")
+def update_project(request, project_id):
+    if not request.user.is_superuser and not is_editor(request.user):
+        raise PermissionDenied
+
+    project = get_object_or_404(
+        Project,
+        pk=project_id,
+    )
+
+    form = ProjectForm(
+        request.POST or None,
+        instance=project,
+    )
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(
+            request,
+            "Proyek berhasil diperbarui!",
+        )
+        return redirect("main:show_projects")
+
+    context = {
+        "name": "Naira Al Humayda",
+        "form": form,
+        "page_title": "Edit Project",
+        "submit_label": "Simpan Perubahan",
+        "project": project,
+    }
+
+    return render(
+        request,
+        "projects_form.html",
+        context,
+    )
 
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
@@ -203,13 +268,22 @@ def get_projects_json(request):
         content_type="application/json",
     )
 
-@login_required(login_url="/login/") 
+@login_required(login_url="/login/")
 def delete_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    project = get_object_or_404(
+        Project,
+        pk=project_id,
+    )
 
     if request.method == "POST":
         project.delete()
-        messages.success(request, "Proyek berhasil dihapus!")
+        messages.success(
+            request,
+            "Proyek berhasil dihapus!",
+        )
         return redirect("main:show_projects")
 
     return redirect("main:show_projects")

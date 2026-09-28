@@ -10,6 +10,8 @@ from main.views import (
     create_project,
     get_projects_json,
     delete_project,
+    create_project,
+    update_project,
     register,
     login_user,
     logout_user,
@@ -95,6 +97,12 @@ urlpatterns = [
         "projects/<uuid:project_id>/star/",
         toggle_star,
         name="toggle_star",
+    ),
+
+    path(
+        "projects/<int:project_id>/edit/",
+        update_project,
+        name="update_project",
     ),
 ]
 
