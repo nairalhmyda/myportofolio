@@ -260,7 +260,16 @@ def get_projects_json(request):
         projects = projects.filter(title__icontains=title_query)
 
     projects_json = serializers.serialize(
-        "json", projects, use_natural_foreign_keys=True  
+        "json",
+        projects,
+        fields=[
+            "title",
+            "description",
+            "tech_stack",
+            "github_url",
+            "year",
+            "project_image_url",
+        ],
     )
 
     return HttpResponse(

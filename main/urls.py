@@ -94,7 +94,7 @@ urlpatterns = [
     ),
 
     path(
-        "projects/<uuid:project_id>/star/",
+        "projects/<int:project_id>/star/",
         toggle_star,
         name="toggle_star",
     ),
