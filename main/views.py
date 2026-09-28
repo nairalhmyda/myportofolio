@@ -4,6 +4,10 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
 from django.core import serializers
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required  
+from django.core.exceptions import PermissionDenied        
+import datetime
+
 from django.shortcuts import (
     get_object_or_404,
     redirect,
@@ -37,16 +41,18 @@ def show_projects(request):
     return render(request, "projects.html", context)
 
 def show_main(request):
-    context = {
-        "name": "Naira Al Humayda",
-        "npm": "2506532233",
-        "study_program": "S1 Sistem Informasi",
-        "bio": (
-            "Mahasiswa Ilmu Komputer Universitas Indonesia yang tertarik "
-            "pada Data Science."
-        ),
-    }
-    return render(request, "index.html", context)
+        last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
+        context = {
+            "name": "Naira Al Humayda",
+            "npm": "2506532233",
+            "study_program": "S1 Sistem Informasi",
+            "bio": (
+                "Mahasiswa Ilmu Komputer Universitas Indonesia yang tertarik "
+                "pada Data Science."
+            ),
+            "last_login": last_login,
+        }
+        return render(request, "index.html", context)
 
 
 def show_experience(request):
@@ -165,6 +171,7 @@ def get_experiences_json(request):
         content_type="application/json",
     )
 
+@login_required(login_url="/login/") 
 def create_project(request):
     form = ProjectForm(request.POST or None)
 
@@ -187,13 +194,16 @@ def get_projects_json(request):
     if title_query:
         projects = projects.filter(title__icontains=title_query)
 
-    projects_json = serializers.serialize("json", projects)
+    projects_json = serializers.serialize(
+        "json", projects, use_natural_foreign_keys=True  
+    )
 
     return HttpResponse(
         projects_json,
         content_type="application/json",
     )
 
+@login_required(login_url="/login/") 
 def delete_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
 
@@ -222,8 +232,11 @@ def login_user(request):
     form = AuthenticationForm(request, data=request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        login(request, form.get_user())
-        return redirect("main:show_main")
+        user = form.get_user()
+        login(request, user)
+        response = redirect("main:show_main")
+        response.set_cookie('last_login', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        return response
 
     context = {
         "name": "Naira Al Humayda",
@@ -235,3 +248,20 @@ def logout_user(request):
     logout(request)
     return redirect("main:show_main")
 
+def logout_user(request):
+    logout(request)
+    response = redirect("main:show_main")
+    response.delete_cookie('last_login')
+    return response
+
+@login_required(login_url="/login/")
+def toggle_star(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+
+    if request.method == "POST":
+        if request.user in project.starred_by.all():
+            project.starred_by.remove(request.user)
+        else:
+            project.starred_by.add(request.user)
+
+    return redirect("main:show_projects")
