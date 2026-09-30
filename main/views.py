@@ -5,7 +5,9 @@ from django.shortcuts import redirect, render
 from django.core import serializers
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required  
-from django.core.exceptions import PermissionDenied        
+from django.core.exceptions import PermissionDenied    
+from main.forms import ProjectForm  
+from django.views.decorators.http import require_POST  
 import datetime
 
 from django.shortcuts import (
@@ -26,40 +28,16 @@ def is_editor(user):
 from django.shortcuts import get_object_or_404, render, redirect
 from main.forms import ProjectForm
 
+
 def show_projects(request):
-    json_response = get_projects_json(request)
-
-    projects = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-
-    projects = [project.object for project in projects]
-
     title_query = request.GET.get("title", "").strip()
 
     context = {
         "name": "Naira Al Humayda",
-        "project_list": projects,
         "title_query": title_query,
-        "is_editor": is_editor(request.user),
+        "form": ProjectForm(),
     }
-
-    return render(request, "projects.html", context)
-
-def show_main(request):
-        last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
-        context = {
-            "name": "Naira Al Humayda",
-            "npm": "2506532233",
-            "study_program": "S1 Sistem Informasi",
-            "bio": (
-                "Mahasiswa Ilmu Komputer Universitas Indonesia yang tertarik "
-                "pada Data Science."
-            ),
-            "last_login": last_login,
-        }
-        return render(request, "index.html", context)
+    return render(request, "project.html", context)
 
 
 def show_experience(request):
@@ -252,30 +230,38 @@ def update_project(request, project_id):
         context,
     )
 
+
+from django.http import JsonResponse
+
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.all()
+    projects = Project.objects.prefetch_related('starred_by').all()
 
     if title_query:
         projects = projects.filter(title__icontains=title_query)
 
-    projects_json = serializers.serialize(
-        "json",
-        projects,
-        fields=[
-            "title",
-            "description",
-            "tech_stack",
-            "github_url",
-            "year",
-            "project_image_url",
-        ],
-    )
+    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
+    data = []
+    for project in projects:
+        starred_users = project.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
 
-    return HttpResponse(
-        projects_json,
-        content_type="application/json",
-    )
+        data.append({
+            "pk": str(project.id),
+            "fields": {
+                "title": project.title,
+                "description": project.description,
+                "tech_stack": project.tech_stack,
+                "project_url": project.project_url,
+                "project_image_url": project.project_image_url,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url="/login/")
 def delete_project(request, project_id):
@@ -348,3 +334,21 @@ def toggle_star(request, project_id):
             project.starred_by.add(request.user)
 
     return redirect("main:show_projects")
+
+@require_POST
+def create_project_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan proyek."},
+            status=403,
+        )
+
+    form = ProjectForm(request.POST)
+    if form.is_valid():
+        project = form.save()
+        return JsonResponse(
+            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
