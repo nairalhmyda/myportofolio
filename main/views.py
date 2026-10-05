@@ -67,7 +67,9 @@ def show_experience(request):
     return render(request, "experience.html", context)
 
 
+# ---------------------------------------------------------------------------
 # Project CRUD + JSON/AJAX endpoints
+# ---------------------------------------------------------------------------
 
 
 def get_projects_json(request):
@@ -206,7 +208,6 @@ def toggle_star(request, project_id):
     return redirect("main:show_projects")
 
 
-@login_required(login_url="/login/")
 @require_POST
 def create_project_ajax(request):
     if not request.user.is_superuser:
@@ -229,7 +230,9 @@ def create_project_ajax(request):
     )
 
 
+# ---------------------------------------------------------------------------
 # Experience CRUD + JSON/AJAX endpoints
+# ---------------------------------------------------------------------------
 
 
 def get_experiences_json(request):
@@ -372,7 +375,6 @@ def toggle_experience_star(request, experience_id):
     return redirect("main:show_experience")
 
 
-@login_required(login_url="/login/")
 @require_POST
 def create_experience_ajax(request):
     if not request.user.is_superuser:
@@ -399,7 +401,9 @@ def create_experience_ajax(request):
     )
 
 
+# ---------------------------------------------------------------------------
 # Authentication
+# ---------------------------------------------------------------------------
 
 
 def register(request):

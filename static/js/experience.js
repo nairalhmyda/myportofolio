@@ -17,6 +17,7 @@ if (page) {
     const searchForm = document.getElementById("experience-search-form");
     const searchInput = document.getElementById("experience-search-input");
     const experienceForm = document.getElementById("experience-form");
+    const retryButton = document.getElementById("experience-retry-button");
     const grid = document.getElementById("experience-grid");
 
     const states = {
@@ -143,6 +144,9 @@ if (page) {
     const debouncedSearch = debounce(() => loadExperiences(searchInput.value.trim()), 300);
 
     searchInput?.addEventListener("input", debouncedSearch);
+    retryButton?.addEventListener("click", () => {
+        loadExperiences(searchInput?.value.trim() || "");
+    });
     searchForm?.addEventListener("submit", (event) => {
         event.preventDefault();
         loadExperiences(searchInput.value.trim());

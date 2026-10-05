@@ -1,25 +1,20 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ name }} - Portfolio</title>
+    <title>{% block title %}{{ name }} - Portfolio{% endblock title %}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block head %}{% endblock head %}
 </head>
-
 <body>
     <header class="site-header">
-
-        <a href="{% url 'main:show_main' %}" class="brand">
-            Naira Al Humayda
-        </a>
+        <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
 
         <button
             type="button"
@@ -28,16 +23,16 @@
             aria-expanded="false"
             aria-controls="site-menu"
         >
-            MENU
-            <span class="menu-icon">+</span>
+            <span class="menu-label">MENU</span>
+            <span class="menu-icon" aria-hidden="true">+</span>
         </button>
-
     </header>
 
-    <nav class="site-menu" id="site-menu">
+    <nav class="site-menu" id="site-menu" aria-label="Primary navigation">
         <a href="{% url 'main:show_main' %}">Profile</a>
         <a href="{% url 'main:show_experience' %}">Experience</a>
         <a href="{% url 'main:show_projects' %}">Projects</a>
+
         {% if user.is_authenticated %}
             <span class="nav-user">{{ user.username }}</span>
             <a href="{% url 'main:logout' %}">Logout</a>
@@ -47,32 +42,16 @@
         {% endif %}
     </nav>
 
-    <script>
-        const menuToggle = document.querySelector(".menu-toggle");
-        const siteMenu = document.querySelector("#site-menu");
-
-        menuToggle.addEventListener("click", () => {
-            const isOpen = siteMenu.classList.toggle("is-open");
-
-            menuToggle.setAttribute("aria-expanded", isOpen);
-            menuToggle.querySelector("span:first-child").textContent =
-                isOpen ? "CLOSE" : "MENU";
-            menuToggle.querySelector(".menu-icon").textContent =
-                isOpen ? "×" : "+";
-        });
-    </script>
-
     <main>
-        {% block content %}
-        {% endblock content %}
+        {% block content %}{% endblock content %}
     </main>
 
     <footer class="site-footer">
-        <p>
-            © 2026 {{ name }}.
-            Fakultas Ilmu Komputer, Universitas Indonesia.
-        </p>
+        <p>© 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
     </footer>
-     {% include 'components/toast.html' %}
+
+    {% include 'components/toast.html' %}
+    <script type="module" src="{% static 'js/site.js' %}"></script>
+    {% block scripts %}{% endblock scripts %}
 </body>
 </html>

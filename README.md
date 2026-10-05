@@ -1,23 +1,15 @@
-### Tugas 4
+### Tugas 5
 
-Implementasi Tugas 4 mencakup:
-- Register, login, dan logout.
-- Session dan cookie last_login.
-- Role Visitor, Regular User, Editor, dan Superuser.
-- Server-side authorization dengan HTTP 403 untuk aksi yang tidak diizinkan.
-- Editor menggunakan Django Group.
-- Fitur star/unstar menggunakan ManyToManyField.
-- API Projects tetap tersedia tanpa mengekspos informasi sensitif.
+1. Debouncing adalah teknik untuk menunda pemanggilan sebuah fungsi sampai pengguna berhenti melakukan suatu aksi selama waktu tertentu. Pada fitur pencarian di project ini, fungsi pencarian baru dijalankan sekitar 300 ms setelah pengguna berhenti mengetik. Tanpa debouncing, setiap ketikan dapat langsung mengirim request baru ke server. Misalnya saat mengetik `data`, browser bisa mengirim request untuk `d`, `da`, `dat`, lalu `data`. Dengan debouncing, jumlah request menjadi lebih sedikit sehingga server tidak menerima request yang tidak perlu, penggunaan jaringan lebih hemat, dan hasil pencarian terasa lebih stabil.
 
-#### Refleksi
-Pada Tugas 4, saya mempelajari perbedaan authentication dan authorization
-serta bagaimana Django dapat digunakan untuk membatasi akses berdasarkan
-role pengguna. Saya juga mempelajari penggunaan Group untuk membuat role
-Editor, PermissionDenied untuk membatasi akses di server, dan
-ManyToManyField untuk menyimpan hubungan antara user dan project melalui
-fitur star.
+2. `fetch()` bekerja secara asynchronous dan langsung menghasilkan sebuah `Promise`, yaitu objek yang mewakili hasil yang baru akan tersedia setelah request selesai. `await` digunakan agar eksekusi di dalam fungsi `async` menunggu Promise tersebut selesai sebelum melanjutkan ke baris berikutnya. Contohnya, `const response = await fetch(url)` membuat variabel `response` berisi respons HTTP yang sudah diterima. Setelah itu, `await response.json()` menunggu proses membaca body respons menjadi JSON. Jika `await` tidak digunakan, variabel tersebut masih berisi `Promise`, bukan data hasil request, sehingga kode yang mencoba membaca `response.ok`, data JSON, atau menampilkan hasil ke halaman dapat berjalan terlalu cepat atau menghasilkan error. Alternatif tanpa `await` adalah menangani Promise menggunakan `.then()`.
 
-Saya menggunakan AI sebagai alat bantu untuk memahami konsep Django
-authentication, authorization, ManyToManyField, debugging error,
-dan pengembangan template. Seluruh kode disesuaikan dan diuji kembali
-secara manual pada project.
+3. XSS (*Cross-Site Scripting*) adalah serangan ketika input yang seharusnya dianggap sebagai data justru diperlakukan browser sebagai HTML atau JavaScript dan kemudian dieksekusi. Contohnya adalah input seperti `<img src="x" onerror="alert('XSS!')">`. Template Django secara default melakukan escaping ketika menampilkan variabel menggunakan sintaks `{{ ... }}`, sehingga karakter HTML berbahaya biasanya ditampilkan sebagai teks. Namun, data yang diterima melalui AJAX kemudian disusun sendiri menggunakan JavaScript. Jika data dari server dimasukkan ke DOM menggunakan `innerHTML` tanpa escaping, browser dapat menganggap input tersebut sebagai HTML dan menjalankan atribut atau script berbahaya. Karena itu, project ini menggunakan `textContent` untuk setiap nilai teks yang dibuat melalui JavaScript dan melakukan sanitasi server-side dengan `strip_tags` pada method `clean_title()` dan `clean_description()` di `ExperienceForm`. Perlindungan dilakukan di kedua sisi karena kita tidak boleh mengandalkan validasi browser saja.
+
+### Refleksi
+
+Pada Tugas 5, saya mempelajari bagaimana JavaScript dan AJAX dapat digunakan untuk membuat halaman web menjadi lebih interaktif tanpa perlu melakukan reload halaman. Saya juga mempelajari penggunaan fetch(), async/await, debouncing pada fitur pencarian, pengiriman form melalui modal, serta penanganan kondisi loading, error, dan data kosong.
+
+Selain itu, saya mempelajari pentingnya perlindungan terhadap serangan XSS dengan melakukan sanitasi input di sisi server menggunakan strip_tags dan menampilkan data secara aman di sisi JavaScript. Saya juga memahami penggunaan CSRF token pada request POST serta bagaimana server memberikan response JSON dengan status HTTP yang sesuai.
+
+Saya menggunakan AI sebagai alat bantu untuk memahami konsep AJAX, fetch(), async/await, debouncing, CSRF, XSS, debugging error, dan perapihan struktur JavaScript. Seluruh kode disesuaikan dan diuji kembali secara manual pada project.
