@@ -1,6 +1,4 @@
-/* ==================================================
-   VARIABLES
-   ================================================== */
+/* VARIABLES */
 
 :root {
     --paper: #f5f0e8;
@@ -13,9 +11,7 @@
 }
 
 
-/* ==================================================
-   GLOBAL
-   ================================================== */
+/* GLOBAL*/
 
 * {
     box-sizing: border-box;
@@ -48,9 +44,7 @@ button {
 }
 
 
-/* ==================================================
-   NAVBAR
-   ================================================== */
+/* NAVBAR */
 
 .site-header {
     position: relative;
@@ -107,9 +101,7 @@ button {
 }
 
 
-/* ==================================================
-   EXPANDABLE MENU
-   ================================================== */
+/* EXPANDABLE MENU */
 
 .site-menu {
     position: relative;
@@ -155,9 +147,7 @@ button {
 }
 
 
-/* ==================================================
-   HOMEPAGE
-   ================================================== */
+/* HOMEPAGE*/
 
 .portfolio-home {
     width: 100%;
@@ -210,9 +200,7 @@ button {
 }
 
 
-/* ==================================================
-   HOMEPAGE CARDS
-   ================================================== */
+/* HOMEPAGE CARDS */
 
 .portfolio-grid {
     display: grid;
@@ -319,14 +307,8 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   ABOUT CARD
-   ================================================== */
+/* ABOUT CARD */
 
-/*
-   About dibuat selebar 2 kolom.
-   BUKAN link, jadi tidak ikut hover.
-*/
 
 .portfolio-about {
     grid-column: 1 / -1;
@@ -384,9 +366,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   FOOTER
-   ================================================== */
+/* FOOTER*/
 
 .site-footer {
     margin-top: 0;
@@ -405,9 +385,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   EXPERIENCE / PROJECT PAGE
-   ================================================== */
+/* EXPERIENCE / PROJECT PAGE */
 
 .experience-section,
 .projects-section {
@@ -449,9 +427,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   BUTTON
-   ================================================== */
+/* BUTTON */
 
 .button {
     display: inline-flex;
@@ -504,9 +480,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   SEARCH
-   ================================================== */
+/* SEARCH */
 
 .project-search {
     display: flex;
@@ -535,9 +509,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   EXPERIENCE CARDS
-   ================================================== */
+/* EXPERIENCE CARDS */
 
 .experience-grid {
     display: grid;
@@ -613,9 +585,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   PROJECT CARDS
-   ================================================== */
+/* PROJECT CARDS*/
 
 .project-grid {
     display: grid;
@@ -661,9 +631,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   FORMS
-   ================================================== */
+/* FORMS*/
 
 .portfolio-form {
     max-width: 720px;
@@ -741,9 +709,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   DELETE MODAL
-   ================================================== */
+/* DELETE MODAL*/
 
 .project-delete-modal {
     width: min(420px, calc(100vw - 30px));
@@ -805,9 +771,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   EMPTY STATE
-   ================================================== */
+/* EMPTY STATE*/
 
 .empty-state {
     grid-column: 1 / -1;
@@ -822,9 +786,7 @@ a.portfolio-card:hover {
 }
 
 
-/* ==================================================
-   MOBILE
-   ================================================== */
+/* MOBILE */
 
 @media (max-width: 768px) {
 
@@ -1058,5 +1020,56 @@ a.portfolio-card:hover {
     .project-form-modal__actions .button {
         width: 100%;
         text-align: center;
+    }
+}
+/* DYNAMIC UI UTILITIES */
+
+.hide {
+    display: none !important;
+}
+
+.button-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+}
+
+.button-star.is-starred {
+    background: var(--accent);
+}
+
+.project-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    object-fit: cover;
+}
+
+.button:disabled,
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.project-actions,
+.experience-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
