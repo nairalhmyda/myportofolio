@@ -48,6 +48,7 @@ class Project(models.Model):
     tech_stack = models.CharField(max_length=255)
     github_url = models.URLField(blank=True, null=True)
     year = models.PositiveIntegerField()
+    project_url = models.URLField(blank=True)
     project_image_url = models.URLField(blank=True, max_length=500)
     starred_by = models.ManyToManyField(
         User,
