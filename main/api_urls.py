@@ -5,6 +5,7 @@ from main import api_views
 app_name = "api"
 
 urlpatterns = [
+    # API Project — Tutorial 7
     path(
         "projects/",
         api_views.project_list,
@@ -19,5 +20,22 @@ urlpatterns = [
         "projects/<int:project_id>/star/",
         api_views.project_star,
         name="project-star",
+    ),
+
+    # API Experience — Tugas 6
+    path(
+        "experiences/",
+        api_views.experience_list,
+        name="experience-list",
+    ),
+    path(
+        "experiences/<uuid:experience_id>/",
+        api_views.experience_detail,
+        name="experience-detail",
+    ),
+    path(
+        "experiences/<uuid:experience_id>/star/",
+        api_views.experience_star,
+        name="experience-star",
     ),
 ]
