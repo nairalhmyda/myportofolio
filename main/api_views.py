@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models.functions import Lower
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
@@ -76,17 +77,47 @@ def project_star(request, project_id):
 def experience_list(request):
     """Menampilkan, mencari, atau menambahkan Experience."""
 
+    
     if request.method == "GET":
         experiences = Experience.objects.prefetch_related(
             "starred_by"
-        ).all()
+        )
 
         title = request.query_params.get("title", "").strip()
+        category = request.query_params.get("category", "").strip()
+        ordering = request.query_params.get("ordering", "newest").strip()
 
         if title:
             experiences = experiences.filter(
                 title__icontains=title
             )
+
+        valid_categories = {
+            value for value, label in Experience.EXPERIENCE_CHOICES
+        }
+
+        if category:
+            if category not in valid_categories:
+                return Response(
+                    {"category": ["Kategori tidak valid."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            experiences = experiences.filter(category=category)
+
+        sort_options = {
+            "newest": ("-started_at", "-id"),
+            "oldest": ("started_at", "id"),
+            "title_asc": (Lower("title"), "id"),
+        }
+
+        if ordering not in sort_options:
+            return Response(
+                {"ordering": ["Pilihan urutan tidak valid."]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        experiences = experiences.order_by(*sort_options[ordering])
 
         serializer = ExperienceSerializer(
             experiences,
@@ -98,6 +129,7 @@ def experience_list(request):
             serializer.data,
             status=status.HTTP_200_OK,
         )
+
 
     serializer = ExperienceSerializer(
         data=request.data,

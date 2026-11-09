@@ -278,3 +278,70 @@ class ExperienceAPITest(APITestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Experience.objects.count(), 2)
+
+    
+    def test_category_filter_and_combined_search(self):
+        Experience.objects.create(
+            title="Data Research",
+            description="Penelitian pendidikan",
+            category="research",
+        )
+
+        response = self.client.get(
+            self.list_url,
+            {
+                "category": "research",
+                "title": "data",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(
+            response.data[0]["title"],
+            "Data Research",
+        )
+
+        invalid = self.client.get(
+            self.list_url,
+            {"category": "invalid-category"},
+        )
+
+        self.assertEqual(invalid.status_code, 400)
+
+    def test_sorting_and_invalid_ordering(self):
+        Experience.objects.create(
+            title="Zeta Experience",
+            description="Contoh pengalaman Z",
+            category="research",
+        )
+
+        Experience.objects.create(
+            title="Alpha Experience",
+            description="Contoh pengalaman A",
+            category="volunteer",
+        )
+
+        response = self.client.get(
+            self.list_url,
+            {"ordering": "title_asc"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        titles = [
+            item["title"]
+            for item in response.data
+        ]
+
+        self.assertEqual(
+            titles,
+            sorted(titles, key=str.casefold),
+        )
+
+        invalid = self.client.get(
+            self.list_url,
+            {"ordering": "invalid-order"},
+        )
+
+        self.assertEqual(invalid.status_code, 400)
