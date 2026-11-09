@@ -19,6 +19,10 @@ if (page) {
 
     const searchForm = document.getElementById("experience-search-form");
     const searchInput = document.getElementById("experience-search-input");
+    const categoryFilter = document.getElementById("experience-category-filter");
+    const orderingSelect = document.getElementById("experience-sort");
+    const resetButton = document.getElementById("experience-reset-filter");
+    const resultsCount = document.getElementById("experience-results-count");
     const grid = document.getElementById("experience-grid");
     const retryButton = document.getElementById("experience-retry-button");
     const addButton = document.getElementById("experience-add-button");
@@ -208,13 +212,32 @@ if (page) {
         setCollectionState(states, "loading");
 
         try {
+            
             const url = new URL(listUrl, window.location.origin);
-            if (query) url.searchParams.set("title", query);
+
+            if (query) {
+                url.searchParams.set("title", query);
+            }
+
+            const category = categoryFilter?.value || "";
+            const ordering = orderingSelect?.value || "newest";
+
+            if (category) {
+                url.searchParams.set("category", category);
+            }
+
+            url.searchParams.set("ordering", ordering);
+
 
             const experiences = await requestJson(url, { signal: controller.signal });
             if (!Array.isArray(experiences)) {
                 throw new Error("Format API bukan array Experience.");
             }
+
+            if (resultsCount) {
+                resultsCount.textContent = "Gagal memuat hasil.";
+            }
+
             grid.replaceChildren();
             if (experiences.length === 0) {
                 setCollectionState(states, "empty");
@@ -276,4 +299,22 @@ if (page) {
     });
 
     loadExperiences(searchInput?.value.trim() || "");
+
+        
+    categoryFilter?.addEventListener("change", () => {
+        loadExperiences(searchInput?.value.trim() || "");
+    });
+
+    orderingSelect?.addEventListener("change", () => {
+        loadExperiences(searchInput?.value.trim() || "");
+    });
+
+    resetButton?.addEventListener("click", () => {
+        if (searchInput) searchInput.value = "";
+        if (categoryFilter) categoryFilter.value = "";
+        if (orderingSelect) orderingSelect.value = "newest";
+
+        loadExperiences("");
+    });
+
 }

@@ -1063,6 +1063,62 @@ button:disabled {
     margin-top: auto;
 }
 
+
+/* Experience Filter & Sorting */
+
+.experience-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+    gap: 14px;
+    margin: -18px 0 22px;
+}
+
+.experience-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.experience-filter label {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.experience-filter__input {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 14px;
+    border: 1px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    font: inherit;
+}
+
+.experience-filter__input:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+}
+
+.experience-result-count {
+    min-height: 20px;
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+@media (max-width: 768px) {
+    .experience-toolbar {
+        grid-template-columns: 1fr;
+        margin-top: -20px;
+    }
+
+    .experience-toolbar .button {
+        width: 100%;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

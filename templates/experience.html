@@ -46,6 +46,58 @@
             <button type="submit" class="button">Cari</button>
         </form>
 
+        
+        <div class="experience-toolbar">
+
+            <div class="experience-filter">
+                <label for="experience-category-filter">
+                    Filter Kategori
+                </label>
+
+                <select
+                    id="experience-category-filter"
+                    class="experience-filter__input"
+                >
+                    <option value="">Semua Kategori</option>
+
+                    {% for value, label in experience_categories %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="experience-filter">
+                <label for="experience-sort">
+                    Urutkan
+                </label>
+
+                <select
+                    id="experience-sort"
+                    class="experience-filter__input"
+                >
+                    <option value="newest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                    <option value="title_asc">Nama A-Z</option>
+                </select>
+            </div>
+
+            <button
+                type="button"
+                id="experience-reset-filter"
+                class="button button-secondary"
+            >
+                Reset Filter
+            </button>
+        </div>
+
+        <p
+            id="experience-results-count"
+            class="experience-result-count"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+
         <div id="experience-loading" class="empty-state hide" aria-live="polite">
             <p>Memuat experience...</p>
         </div>
