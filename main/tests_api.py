@@ -15,20 +15,20 @@ class ProjectAPITest(APITestCase):
         )
         self.visitor = User.objects.create_user(username="visitor", password="test-password")
         self.project = Project.objects.create(
-            title="Portfolio", description="My website", tech_stack="Django",
+            title="Portfolio", description="My website", tech_stack="Django", year=2026,
         )
         self.list_url = reverse("api:project-list")
         self.detail_url = reverse("api:project-detail", args=[self.project.id])
         self.star_url = reverse("api:project-star", args=[self.project.id])
         self.payload = {
-            "title": "New project", "description": "A useful app", "tech_stack": "Python",
+            "title": "New project", "description": "A useful app", "tech_stack": "Python", "year": 2026,
             "project_url": "https://example.com/", "project_image_url": "",
         }
 
     def test_public_list_and_detail(self):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]["id"], str(self.project.id))
+        self.assertEqual(response.data[0]["id"], self.project.id)
         self.assertFalse(response.data[0]["is_starred"])
         self.assertNotIn("fields", response.data[0])
         self.assertEqual(self.client.get(self.detail_url).status_code, status.HTTP_200_OK)
@@ -40,7 +40,7 @@ class ProjectAPITest(APITestCase):
         self.assertEqual(response.data, [])
 
     def test_missing_project(self):
-        url = reverse("api:project-detail", args=[uuid.uuid4()])
+        url = reverse("api:project-detail", args=[999999])
         self.assertEqual(self.client.get(url).status_code, status.HTTP_404_NOT_FOUND)
 
     def test_guest_and_visitor_cannot_write(self):

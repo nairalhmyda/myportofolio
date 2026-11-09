@@ -9,14 +9,24 @@ class ProjectSerializer(serializers.ModelSerializer):
     is_starred = serializers.SerializerMethodField()
     starred_by_names = serializers.SerializerMethodField()
 
+    
     class Meta:
         model = Project
         fields = [
-            "id", "title", "description", "tech_stack",
-            "project_url", "project_image_url",
-            "star_count", "is_starred", "starred_by_names",
+            "id",
+            "title",
+            "description",
+            "tech_stack",
+            "github_url",
+            "year",
+            "project_url",
+            "project_image_url",
+            "star_count",
+            "is_starred",
+            "starred_by_names",
         ]
         read_only_fields = ["id"]
+
 
     def validate_title(self, value):
         value = strip_tags(value).strip()
