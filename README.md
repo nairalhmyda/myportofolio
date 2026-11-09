@@ -1,15 +1,47 @@
-### Tugas 5
+# MyPortofolio
 
-1. Debouncing adalah teknik untuk menunda pemanggilan sebuah fungsi sampai pengguna berhenti melakukan suatu aksi selama waktu tertentu. Pada fitur pencarian di project ini, fungsi pencarian baru dijalankan sekitar 300 ms setelah pengguna berhenti mengetik. Tanpa debouncing, setiap ketikan dapat langsung mengirim request baru ke server. Misalnya saat mengetik `data`, browser bisa mengirim request untuk `d`, `da`, `dat`, lalu `data`. Dengan debouncing, jumlah request menjadi lebih sedikit sehingga server tidak menerima request yang tidak perlu, penggunaan jaringan lebih hemat, dan hasil pencarian terasa lebih stabil.
+Website portofolio berbasis **Django, DRF, HTML, CSS, dan JavaScript** untuk menampilkan profil, Projects, dan Experience.
 
-2. `fetch()` bekerja secara asynchronous dan langsung menghasilkan sebuah `Promise`, yaitu objek yang mewakili hasil yang baru akan tersedia setelah request selesai. `await` digunakan agar eksekusi di dalam fungsi `async` menunggu Promise tersebut selesai sebelum melanjutkan ke baris berikutnya. Contohnya, `const response = await fetch(url)` membuat variabel `response` berisi respons HTTP yang sudah diterima. Setelah itu, `await response.json()` menunggu proses membaca body respons menjadi JSON. Jika `await` tidak digunakan, variabel tersebut masih berisi `Promise`, bukan data hasil request, sehingga kode yang mencoba membaca `response.ok`, data JSON, atau menampilkan hasil ke halaman dapat berjalan terlalu cepat atau menghasilkan error. Alternatif tanpa `await` adalah menangani Promise menggunakan `.then()`.
+## Fitur
 
-3. XSS (*Cross-Site Scripting*) adalah serangan ketika input yang seharusnya dianggap sebagai data justru diperlakukan browser sebagai HTML atau JavaScript dan kemudian dieksekusi. Contohnya adalah input seperti `<img src="x" onerror="alert('XSS!')">`. Template Django secara default melakukan escaping ketika menampilkan variabel menggunakan sintaks `{{ ... }}`, sehingga karakter HTML berbahaya biasanya ditampilkan sebagai teks. Namun, data yang diterima melalui AJAX kemudian disusun sendiri menggunakan JavaScript. Jika data dari server dimasukkan ke DOM menggunakan `innerHTML` tanpa escaping, browser dapat menganggap input tersebut sebagai HTML dan menjalankan atribut atau script berbahaya. Karena itu, project ini menggunakan `textContent` untuk setiap nilai teks yang dibuat melalui JavaScript dan melakukan sanitasi server-side dengan `strip_tags` pada method `clean_title()` dan `clean_description()` di `ExperienceForm`. Perlindungan dilakukan di kedua sisi karena kita tidak boleh mengandalkan validasi browser saja.
+- **Projects:** daftar, pencarian, CRUD, dan star (Tutorial 7).
+- **Experience:** REST API CRUD, pencarian, star, modal tambah/edit, dan interaksi tanpa reload.
+- **Fitur tambahan:** filter kategori, sorting, reset filter, toast, dan tampilan responsif.
+- **Keamanan:** validasi serializer, permission empat peran, dan CSRF.
 
-### Refleksi
+## Cara Menjalankan
 
-Pada Tugas 5, saya mempelajari bagaimana JavaScript dan AJAX dapat digunakan untuk membuat halaman web menjadi lebih interaktif tanpa perlu melakukan reload halaman. Saya juga mempelajari penggunaan fetch(), async/await, debouncing pada fitur pencarian, pengiriman form melalui modal, serta penanganan kondisi loading, error, dan data kosong.
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
-Selain itu, saya mempelajari pentingnya perlindungan terhadap serangan XSS dengan melakukan sanitasi input di sisi server menggunakan strip_tags dan menampilkan data secara aman di sisi JavaScript. Saya juga memahami penggunaan CSRF token pada request POST serta bagaimana server memberikan response JSON dengan status HTTP yang sesuai.
+Jalankan pengujian dengan `python manage.py test main`.
 
-Saya menggunakan AI sebagai alat bantu untuk memahami konsep AJAX, fetch(), async/await, debouncing, CSRF, XSS, debugging error, dan perapihan struktur JavaScript. Seluruh kode disesuaikan dan diuji kembali secara manual pada project.
+## API Experience
+
+Prefix: `/api/v1/experiences/`.
+
+| Method | Endpoint | Akses |
+|---|---|---|
+| GET / POST | `/` | Baca publik; tambah superuser |
+| GET / PUT / PATCH / DELETE | `/<uuid>/` | Baca publik; edit Editor/superuser; hapus superuser |
+| POST | `/<uuid>/star/` | Pengguna login |
+
+Pencarian, filter, dan sorting menggunakan parameter `title`, `category`, dan `ordering`.
+
+## Refleksi Tugas 6
+
+1. **REST:** JSON merupakan format data, sedangkan REST juga mengatur resource, HTTP method, dan status respons. PUT memperbarui seluruh data, PATCH hanya bagian tertentu.
+2. **Serializer:** memvalidasi input, mengatur field API, dan melindungi field perhitungan agar *read-only*.
+3. **Permission:** autentikasi memastikan identitas pengguna; otorisasi menentukan tindakan yang boleh dilakukan. Pengecekan harus ada di server.
+4. **CSRF:** pada `SessionAuthentication`, request yang mengubah data memerlukan perlindungan CSRF agar sesi pengguna tidak disalahgunakan.
+
+## Penggunaan AI
+
+Saya menggunakan **ChatGPT** untuk membantu memahami DRF, serializer, permission, API, debugging, dan merapikan kode serta dokumentasi. Kode yang digunakan disesuaikan dengan kebutuhan proyek dan diuji kembali secara manual.
+
+## Pengumpulan
+
+- **Repository:** https://github.com/nairalhmyda/myportofolio
