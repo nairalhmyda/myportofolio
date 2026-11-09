@@ -1,88 +1,74 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
+{% block title %}Projects - {{ name }}{% endblock title %}
 
-<section class="experience-section">
+{% block content %}
+<section
+    id="projects-page"
+    class="experience-section"
+    data-list-url="{% url 'main:get_projects_json' %}"
+    data-create-url="{% url 'main:create_project_ajax' %}"
+    data-login-url="{% url 'main:login' %}"
+>
     <div class="container">
         <p class="section-kicker">Portfolio</p>
 
         <div class="project-header">
             <h1>Projects</h1>
-
-            <a href="{% url 'main:create_project' %}" class="button project-add-button">
-                <span aria-hidden="true">+</span>
-                Tambah Proyek
-            </a>
+            {% if user.is_superuser %}
+                <button
+                    type="button"
+                    class="button project-add-button"
+                    popovertarget="add-project-modal"
+                >
+                    <span aria-hidden="true">+</span>
+                    Tambah Proyek
+                </button>
+            {% endif %}
         </div>
 
-        <form
-            method="get"
-            action="{% url 'main:show_projects' %}"
-            class="project-search"
-        >
+        <form id="project-search-form" class="project-search" role="search">
             <input
                 type="search"
+                id="project-search-input"
                 name="title"
                 value="{{ title_query }}"
                 placeholder="Cari berdasarkan nama proyek"
                 class="project-search__input"
                 aria-label="Cari berdasarkan nama proyek"
             >
-
-            <button type="submit" class="button">
-                Cari
-            </button>
+            <button type="submit" class="button">Cari</button>
         </form>
 
-        <div class="experience-grid project-grid">
-            {% for project in project_list %}
-                <article class="experience-card">
-
-                    <span class="experience-category">
-                        {{ project.year }}
-                    </span>
-
-                    <h2>{{ project.title }}</h2>
-
-                    <p class="experience-description">
-                        {{ project.description }}
-                    </p>
-
-                    <p class="experience-status">
-                        {{ project.tech_stack }}
-                    </p>
-
-                    {% if project.github_url %}
-                        <a
-                            href="{{ project.github_url }}"
-                            target="_blank"
-                            rel="noopener"
-                            class="button"
-                        >
-                            View on GitHub
-                        </a>
-                    {% endif %}
-
-                    {% include "components/project_delete_modal.html" with project=project %}
-
-                </article>
-
-            {% empty %}
-
-                {% if title_query %}
-                    <p class="empty-state">
-                        Tidak ada proyek dengan nama tersebut.
-                    </p>
-                {% else %}
-                    <p class="empty-state">
-                        Belum ada proyek yang ditambahkan.
-                    </p>
-                {% endif %}
-
-            {% endfor %}
+        <div id="project-loading" class="empty-state hide" aria-live="polite">
+            <p>Memuat projects...</p>
         </div>
+
+        <div id="project-error" class="empty-state hide" role="alert">
+            <p>Gagal memuat data projects. Silakan coba lagi.</p>
+        </div>
+
+        <div id="project-empty" class="empty-state hide">
+            <p>Tidak ada proyek yang ditemukan.</p>
+        </div>
+
+        <div id="project-grid" class="experience-grid project-grid hide"></div>
     </div>
 </section>
 
+{% if user.is_superuser %}
+    {% include "components/project_form_modal.html" %}
+{% endif %}
+
+{% csrf_token %}
 {% endblock content %}
+
+{% block scripts %}
+<script
+    type="module"
+    src="{% static 'js/projects.js' %}">
+</script>
+{% endblock scripts %}
+
+
