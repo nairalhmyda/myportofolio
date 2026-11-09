@@ -7,10 +7,15 @@
 <section
     id="experience-page"
     class="experience-section"
-    data-list-url="{% url 'main:get_experiences_json' %}"
-    data-create-url="{% url 'main:create_experience_ajax' %}"
+    data-list-url="{% url 'api:experience-list' %}"
+    data-create-url="{% url 'api:experience-list' %}"
     data-login-url="{% url 'main:login' %}"
+    data-can-star="{% if user.is_authenticated %}true{% else %}false{% endif %}"
+    data-can-edit="{% if user.is_superuser or is_editor %}true{% else %}false{% endif %}"
+    data-can-delete="{% if user.is_superuser %}true{% else %}false{% endif %}"
 >
+
+    <div class="hide" aria-hidden="true">{% csrf_token %}</div>
     <div class="container">
         <p class="section-kicker">Journey</p>
 
