@@ -38,7 +38,7 @@ class PortfolioPageTests(TestCase):
         self.assertEqual(projects.status_code, 200)
         self.assertEqual(experiences.status_code, 200)
         self.assertContains(projects, reverse("main:get_projects_json"))
-        self.assertContains(experiences, reverse("main:get_experiences_json"))
+        self.assertContains(experiences, reverse("api:experience-list"))
 
     def test_project_api_returns_frontend_contract(self):
         response = self.client.get(reverse("main:get_projects_json"))
